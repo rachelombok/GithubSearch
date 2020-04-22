@@ -1,0 +1,81 @@
+<div class="container-header">
+	<app-navigation-bar></app-navigation-bar>
+
+	<div>
+	
+		<img src = "../../../assets/github.svg" class="center" width="200" height="200">
+		
+	</div>
+	<div class="wrapper">
+		<form #userForm="ngForm" (ngSubmit)="findUser(userForm); userForm.reset()">
+			<input type="text" class="input" placeholder="Enter UserName" name="searchUser" [(ngModel)]="userName">
+			<button class="close-btn searchbtn" type="submit">Search</button>
+		</form>
+	</div>
+</div>
+<div class="container container-fluid">
+	<div class="card">
+		<h4 class="card-header"> User Profile</h4>
+		<div class="card-block"></div>
+			<div class="row">
+				<div class="col-md-3">
+					<img src="{{ userProfile.avatar_url }}" class="img-thumbnail ml-3 mt-4" style="width:200px; height: 200px;">
+					<a class="btn btn-sm btn-primary mt-2 ml-4" href="{{ userProfile.html_url }}" target="_blank"> View on Github </a>
+				</div>
+				<div class="col-md-8 mt-4">
+					<ul class="list-group">
+						<li class="list-group-item" *ngIf="userProfile.login"> <b>Username:</b> {{ userProfile.login}}</li>
+						<li class="list-group-item" *ngIf="userProfile.location"> <b>Location:</b> {{ userProfile.location}}</li>
+						<li class="list-group-item" *ngIf="userProfile.bio"> <b>Bio:</b> {{ userProfile.bio}}</li>
+						<li class="list-group-item" *ngIf="userProfile.created_at"> <b>Joined:</b> {{ userProfile.created_at | dateAgo }} <span style="float: right;"><b>On: </b>{{ userProfile.created_at | date }}</span></li> 
+					</ul>
+				</div>
+				<div class="mt-4">
+					<span class="badge badge-info ml-3 mr-3">
+						{{ userProfile.followers}} followers
+					</span>
+					<span class="badge badge-primary ml-3">
+						{{ userProfile.following}} following
+					</span>
+					<span class="badge badge-danger ml-3">
+						{{ userProfile.public_repos}} Public repositories
+					</span>
+				</div>
+		</div>
+	</div>
+	<hr>
+	<h5 class="text-center"> {{userProfile.login}}'s Repositories </h5>
+	<hr>
+	<div class="container demo">
+		<div  *ngFor='let repository of repoService.repoList'>
+			<div appHighlight class="card repositories">
+				<div class="card-header"> {{ repository.name }}</div>
+				<div class="card-body">
+					<div class="details">
+					<p> {{ repository.description }}</p>
+					</div>
+					<hr>
+					<div class="moredetails">
+						<p *ngIf="repository.language"><b>Language:</b> {{ repository.language}}</p>
+					</div>
+					<hr>
+					<div class="card-subtitle">
+						<span class="badge badge-primary ml-3">
+							{{ repository.forks_count}} forks
+						</span>
+						<span class="badge badge-success ml-3">
+							{{ repository.watchers_count }} watchers
+						</span>
+						<span class="badge badge-danger ml-3"><a href="{{ repository.html_url }}" target="_blank">View</a>
+						</span>
+					</div>   
+				</div> 
+			</div>
+		</div>
+	</div>
+</div>
+<footer class="page-footer">
+	<div class="footer-copyright text-center">
+		<h6></h6>
+	</div>
+</footer>
